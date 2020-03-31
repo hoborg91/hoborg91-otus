@@ -1,0 +1,94 @@
+﻿<script>
+
+// Условия
+
+// Написать функцию sum, которая может быть исполнена любое количество раз с не `undefined` аргументом.
+// Если она исполнена без аргументов, то возвращает значение суммы всех переданных до этого значений.
+// sum(1)(2)(3)....(n)() === 1 + 2 + 3 + ... + n 
+
+// Инфраструктура
+
+class ArgumentError extends Error {
+    constructor(...args) {
+        super(args);
+    }
+}
+
+function assertEqual(a, b) {
+    if (a !== b)
+        throw new Error(`Expected: ${a}. Given: ${b}.`);
+}
+
+// Вариант №1. Результат запоминается между всеми вызовами функции sum.
+
+{
+
+    const sum = (() => {
+        let accumulator = 0;
+        
+        function f(...args) {   
+            if (args.length > 1)
+                throw new ArgumentError(`0 or 1 argument expected. Given ${args.length} arguments.`);
+            if (args.length > 0 && typeof args[0] !== typeof 0)
+                throw new ArgumentError(`The single argument must be a number. Given: ${typeof args[0]}.`);
+                
+            if (args.length === 0)
+                return accumulator;
+                
+            accumulator += args[0];
+            
+            return f
+        };
+        
+        return f;
+    })();
+
+    assertEqual(sum(), 0);
+    assertEqual(sum(1)(-1)(0)(), 0);
+    assertEqual(sum(1)(2)(3)(), 6);
+    assertEqual(sum(1)(2)(3)(), 12);
+    assertEqual(sum(1)(2)(3)(), 18);
+
+}
+
+// Вариант №2. Результат не запоминается; каждый раз суммирование начинается с 0.
+
+{
+
+    function curry(binaryFunction, baseArgument) {
+        if (typeof binaryFunction !== "function")
+            throw new ArgumentError("The first given argument must be a binary function.");
+
+        return (...args) => {
+            if (args.length > 1)
+                throw new ArgumentError(`0 or 1 argument expected. Given: ${args.length} arguments.`);
+                
+            if (args.length === 0)
+                return baseArgument;
+            
+            return curry(binaryFunction, binaryFunction(baseArgument, args[0]));
+        }
+    }
+    
+    function sumBase(a, b) {
+        if (typeof a !== typeof 0 || typeof b !== typeof 0)
+            throw new ArgumentError("The given arguments must be numbers.");
+        
+        return a + b;
+    }
+
+    const sum = curry(sumBase, 0);
+
+    assertEqual(sum(), 0);
+    assertEqual(sum(1)(-1)(0)(), 0);
+    assertEqual(sum(1)(2)(3)(), 6);
+    assertEqual(sum(1)(2)(3)(), 6);
+    assertEqual(sum(1)(2)(3)(), 6);
+
+}
+
+// Конец
+
+console.log("OK");
+
+</script>
