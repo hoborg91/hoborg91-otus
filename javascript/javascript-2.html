@@ -1,0 +1,101 @@
+﻿<script src="infrastructure.js"></script>
+
+<script>
+
+// Условия
+
+// Цель: Написать функцию promiseReduce(asyncFunctions, reduce, initialValue) 
+// asyncFunctions - массив асинхронных функций, возвращающих промис
+// reduce(memo, value) - функция, которая будет вызвана для каждого успешно завершившегося промиса.
+// initialValue - стартовое значение для функции reduce
+// promiseReduce последовательно вызывает переданные асинхронные функции и выполняет reduce функцию сразу при получении результата до вызова следующей асинхронной функции. Функция promiseReduce должна возвращать промис с конечным результатом.
+
+// Реализация
+
+function promiseReduce(asyncFunctions, reduce, initialValue) {
+    if (!Array.isArray(asyncFunctions) || asyncFunctions.any(f => typeof f !== typeof Infra.DummyFunction))
+        throw new ArgumentError("The asyncFunctions argument must be an array of functions.");
+    if (Infra.checkIsFunction(reduce, "reduce"))
+        throw new ArgumentError("The reduce argument must be a function.");
+        
+    if (asyncFunctions.length === 0)
+        return new Promise((resolve, reject) => resolve(initialValue));
+    
+    return asyncFunctions[0]()
+        .then(fnResult => reduce(fnResult, initialValue))
+        .then(reduceResult => promiseReduce(asyncFunctions.slice(1), reduce, reduceResult));
+}
+
+// Тесты
+
+// Тесты. Проверка аргументов
+
+{
+
+    Infra.assertThrows(() => promiseReduce(null, Infra.DummyFunction, null), ArgumentError, "asyncFunctions");
+    Infra.assertThrows(() => promiseReduce([1, ], Infra.DummyFunction, null), ArgumentError, "asyncFunctions");
+    Infra.assertThrows(() => promiseReduce([], null, null), ArgumentError, "reduce");
+
+}
+
+// Тесты. Пустая коллекция функций
+
+{
+
+    const initialValue = 1;
+    
+    promiseReduce([], Infra.DummyFunction, initialValue)
+        .then(result => Infra.assertEqual(initialValue, result));
+
+}
+    
+// Тесты. Несколько функций
+
+{
+    
+    const fn = (str) => {
+        if (typeof str !== typeof "")
+            throw new ArgumentError("String expected.");
+        
+        return () => Promise.resolve(str);
+    }
+    
+    promiseReduce([ fn("1"), fn("2"), fn("3"), ], (memo, value) => `${memo}r${value}`, "i")
+        .then(result => Infra.assertEqual("3r2r1ri", result));
+    
+}
+
+// Проверка вручную
+
+// Ожидаемый результат в консоли:
+// fn1
+// reduce
+// fn2
+// reduce
+// 2
+
+{
+
+    var fn1 = () => {
+        console.log("fn1");
+        return Promise.resolve(1);
+    };
+
+    var fn2 = () => new Promise(resolve => {
+        console.log("fn2");
+        setTimeout(() => resolve(2), 1000);
+    });
+
+    promiseReduce(
+        [fn1, fn2],
+        function (memo, value) {
+            console.log("reduce");
+            return memo * value;
+        },
+        1
+        )
+        .then(console.log);
+    
+}
+
+</script>
