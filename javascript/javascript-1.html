@@ -1,23 +1,12 @@
-﻿<script>
+﻿<script src="infrastructure.js"></script>
+
+<script>
 
 // Условия
 
 // Написать функцию sum, которая может быть исполнена любое количество раз с не `undefined` аргументом.
 // Если она исполнена без аргументов, то возвращает значение суммы всех переданных до этого значений.
 // sum(1)(2)(3)....(n)() === 1 + 2 + 3 + ... + n 
-
-// Инфраструктура
-
-class ArgumentError extends Error {
-    constructor(...args) {
-        super(args);
-    }
-}
-
-function assertEqual(a, b) {
-    if (a !== b)
-        throw new Error(`Expected: ${a}. Given: ${b}.`);
-}
 
 // Вариант №1. Результат запоминается между всеми вызовами функции sum.
 
@@ -43,11 +32,11 @@ function assertEqual(a, b) {
         return f;
     })();
 
-    assertEqual(sum(), 0);
-    assertEqual(sum(1)(-1)(0)(), 0);
-    assertEqual(sum(1)(2)(3)(), 6);
-    assertEqual(sum(1)(2)(3)(), 12);
-    assertEqual(sum(1)(2)(3)(), 18);
+    Infra.assertEqual(sum(), 0);
+    Infra.assertEqual(sum(1)(-1)(0)(), 0);
+    Infra.assertEqual(sum(1)(2)(3)(), 6);
+    Infra.assertEqual(sum(1)(2)(3)(), 12);
+    Infra.assertEqual(sum(1)(2)(3)(), 18);
 
 }
 
@@ -79,11 +68,11 @@ function assertEqual(a, b) {
 
     const sum = curry(sumBase, 0);
 
-    assertEqual(sum(), 0);
-    assertEqual(sum(1)(-1)(0)(), 0);
-    assertEqual(sum(1)(2)(3)(), 6);
-    assertEqual(sum(1)(2)(3)(), 6);
-    assertEqual(sum(1)(2)(3)(), 6);
+    Infra.assertEqual(sum(), 0);
+    Infra.assertEqual(sum(1)(-1)(0)(), 0);
+    Infra.assertEqual(sum(1)(2)(3)(), 6);
+    Infra.assertEqual(sum(1)(2)(3)(), 6);
+    Infra.assertEqual(sum(1)(2)(3)(), 6);
 
 }
 
