@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>getPath - поиск уникального селектора</title>
+        
+        <script defer src="infrastructure.js"></script>
+        <script defer src="javascript-3.js"></script>
+        
+        <style>
+            div {
+                margin: 16px;
+                border: 1px solid lightgrey;
+                border-radius: 4px;
+            }
+            
+            span {
+                margin: 16px;
+                border: 1px solid lightgrey;
+                border-radius: 4px;
+                display: block;
+                background-color: yellow;
+            }
+            
+            .level-2:nth-child(2) {
+                background-color: #e6ffe6;
+            }
+            
+            .level-2:nth-child(4) {
+                background-color: #ffe6ff;
+            }
+        </style>
+    </head>
+    <body>
+        A bit of text just to introduce a text node
+        
+        <div class="level-1" id="div-1">
+            div-1
+        </div>
+        
+        A bit of text just to introduce a text node
+        
+        <span class="level-1" id="span-1">
+            span-1
+        </span>
+        
+        A bit of text just to introduce a text node
+        
+        <div class="level-1" id="div-2">
+            div-2 begins
+            
+            <div class="level-2" id="div-2-1">
+                div-2-1
+            </div>
+            
+            A bit of text just to introduce a text node
+            
+            <div class="level-2" id="div-2-2">
+                div-2-2
+            </div>
+            
+            A bit of text just to introduce a text node
+            
+            <div class="level-2" id="div-2-3">
+                div-2-3
+            </div>
+            
+            A bit of text just to introduce a text node
+            
+            <div class="level-2" id="div-2-4">
+                div-2-4
+            </div>
+            
+            A bit of text just to introduce a text node
+            
+            <span class="level-2" id="span-2-1">
+                span-2-1
+            </span>
+            
+            div-2 ends
+        </div>
+        
+        A bit of text just to introduce a text node
+        
+        <div class="level-1" id="div-3">
+            div-3 begins
+            
+            <div class="level-2" id="div-3-1">
+                div-3-1 begins
+                
+                <span class="level-3" id="span-3-1-1">
+                    span-3-1-1
+                </span>
+                
+                div-3-1 ends
+            </div>
+            
+            A bit of text just to introduce a text node
+            
+            <div class="level-2" id="div-3-2">
+                div-3-2
+            </div>
+            
+            div-3 ends
+        </div>
+        
+        A bit of text just to introduce a text node
+    </body>
+</html>
