@@ -80,7 +80,11 @@ typings/
 
 # Nuxt.js build / generate output
 .nuxt
-dist
+javascript/javascript-7/dist/*
+!javascript/javascript-7/dist/autonomous.html
+!javascript/javascript-7/dist/builtin.html
+!javascript/javascript-7/dist/lit-html.html
+!javascript/javascript-7/dist/lit-element.html
 
 # Gatsby files
 .cache/
