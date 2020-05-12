@@ -16,8 +16,10 @@
     let amount = defaultValues.amount;
     
     const handleSubmit = () => {
-        if (amount < 1)
+        if (amount < 1) {
             wrongInputDialog.open();
+            return;
+        }
         const date = parseDate(dateStr);
         const type = entryTypes.filter(e => e.id.toString() === typeId)[0];
         onEnter({

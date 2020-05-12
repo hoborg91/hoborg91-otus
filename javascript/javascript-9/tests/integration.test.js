@@ -34,6 +34,15 @@ describe('App', () => {
         const rowsBefore = await page.$eval('table tbody', e => e.children.length);
 
         // Act
+
+        // Act 1. Tune table filter.
+        await page.focus('.js-9-entries-table input[type="number"]');
+        const defaultInputLengthFilter = await page.$eval('.js-9-entries-table input[type="number"]', e => e.value.length);
+        for (let i = 0; i < defaultInputLengthFilter; i++)
+            await page.keyboard.press('Backspace');
+        page.keyboard.type('0');
+
+        // Act 2. Add record with zero amount.
         await page.focus('form input[type="number"]');
         const defaultInputLength = await page.$eval('form input[type="number"]', e => e.value.length);
         for (let i = 0; i < defaultInputLength; i++)

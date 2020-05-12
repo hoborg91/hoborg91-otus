@@ -20,7 +20,7 @@
     });
 </script>
 
-<div>
+<div class='js-9-entries-table'>
     <span class="mdc-typography--overline">
         Filter displayed entries by minimal amount: 
     </span>
