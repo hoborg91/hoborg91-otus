@@ -106,3 +106,5 @@ javascript/javascript-7/dist/*
 
 # TernJS port file
 .tern-port
+/javascript/javascript-20/mockups/page-1.JPG
+/javascript/javascript-20/mockups/page-2.JPG

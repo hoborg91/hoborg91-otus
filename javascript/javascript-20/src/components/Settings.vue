@@ -1,17 +1,51 @@
 <template>
   <div>
-    <h1><img alt="Vue logo" src="./../assets/logo.png" width="20"> Привет!</h1>
-    <p>Добро пожаловать на {{log.day}} тренировочный день.</p>
-    <p>Ваш последний результат - решено {{log.solved}} из {{log.total}}.</p>
-    <p>Общая точность {{log.accuracy}}%.</p>
-    <label class="settings-line"><input v-model="duration" type="range" min="1" max="15" />Длительность {{duration}} мин.</label>
-    <label class="settings-line"><input v-model="difficulty" type="range" min="1" max="15" />Сложность {{difficulty}}</label>
-    <label class="settings-line"><input v-model="operations" type="checkbox" value="addition" />Сложение</label>
-    <label class="settings-line"><input v-model="operations" type="checkbox" value="subtraction" />Разность</label>
-    <label class="settings-line"><input v-model="operations" type="checkbox" value="multiplication" />Умножение</label>
-    <label class="settings-line"><input v-model="operations" type="checkbox" value="division" />Деление</label>
-    <label class="settings-line"><input v-model="operations" type="checkbox" value="exponentiation" />Возведение в степень</label>
-    <button>Играть</button>
+    <v-container>
+      <v-row no-gutters>
+        <v-col>
+          <h1><img alt="Vue logo" src="./../assets/logo.png" width="20"> Привет!</h1>
+        </v-col>
+      </v-row>
+      <v-row no-gutters>
+        <v-col>
+          <p>Добро пожаловать на {{day}} тренировочный день.</p>
+          <p v-if="recentStatisticsEnabled">
+            Ваш последний результат - решено {{statistics.recentSolved}} из {{statistics.recentTotal}}.
+          </p>
+          <p v-if="accuracy !== null">Общая точность {{accuracy}}%.</p>
+        </v-col>
+      </v-row>
+      <v-row no-gutters>
+        <v-col>
+          <v-slider v-model="duration" min="1" max="15"></v-slider>
+        </v-col>
+        <v-col>
+          Длительность {{duration}} мин.
+        </v-col>
+      </v-row>
+      <v-row no-gutters>
+        <v-col>
+          <v-slider v-model="difficulty" min="1" max="10"></v-slider>
+        </v-col>
+        <v-col>
+          Сложность {{difficulty}}
+        </v-col>
+      </v-row>
+      <v-row no-gutters>
+        <v-col>
+          <v-checkbox v-model="operations" label="Сложение" value="addition" type="checkbox"></v-checkbox>
+          <v-checkbox v-model="operations" label="Разность" value="subtraction" type="checkbox"></v-checkbox>
+          <v-checkbox v-model="operations" label="Умножение" value="multiplication" type="checkbox"></v-checkbox>
+          <v-checkbox v-model="operations" label="Деление" value="division" type="checkbox"></v-checkbox>
+          <v-checkbox v-model="operations" label="Возведение в степень" value="exponentiation" type="checkbox"></v-checkbox>
+        </v-col>
+      </v-row>
+      <v-row no-gutters>
+        <v-col>
+          <v-btn @click="play" :disabled="playDisabled"><span class="mr-2">Играть</span></v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -19,22 +53,45 @@
 export default {
   name: 'Settings',
   props: {
-    log: Object,
-    duration: Number,
-    difficulty: Number,
-    operations: Array,
-  }
+    defaultSettings: Object,
+    statistics: Object,
+  },
+  data() {
+    let accuracy = null;
+    if (this.statistics.overallTotal > 0)
+        accuracy = Math.floor(100 * this.statistics.overallSolved / this.statistics.overallTotal);
+
+    const now = Date.now();
+    let day = 0;
+    if (now >= this.statistics.startAt) {
+      const diff = now - this.statistics.startAt;
+      day = Math.ceil(diff / (1000 * 60 * 60 * 24));
+    }
+
+    return {
+      ...this.defaultSettings,
+      recentStatisticsEnabled: this.statistics.recentSolved !== null && this.statistics.recentTotal !== null,
+      accuracy,
+      day,
+    };
+  },
+  computed: {
+    playDisabled() {
+      return this.operations.length === 0;
+    },
+  },
+  methods: {
+    play() {
+      this.$store.dispatch('save', {
+          duration: this.duration,
+          difficulty: this.difficulty,
+          operations: this.operations,
+      });
+      this.$router.push('game');
+    },
+  },
 }
 </script>
 
 <style scoped>
-.settings-line {
-  display: block;
-  padding: 5px;
-}
-
-button {
-  margin: 5px;
-  border-radius: 5px;
-}
 </style>
