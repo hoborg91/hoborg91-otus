@@ -6,6 +6,7 @@ import store from "./store.js";
 
 const router = new VueRouter({
     mode: 'history',
+    base: '/hoborg91-otus-js-vue/',
     routes: [
         { 
             path: '/', 
