@@ -44,6 +44,9 @@
         <v-col>
           <v-btn @click="play" :disabled="playDisabled"><span class="mr-2">Играть</span></v-btn>
         </v-col>
+        <v-col>
+          <v-checkbox v-model="hint" label="С подсказкой" type="checkbox"></v-checkbox>
+        </v-col>
       </v-row>
     </v-container>
   </div>
@@ -86,6 +89,7 @@ export default {
           duration: this.duration,
           difficulty: this.difficulty,
           operations: this.operations,
+          hint: this.hint,
       });
       this.$router.push('game');
     },

@@ -9,6 +9,7 @@ export default new Vuex.Store({
             duration: 7,
             difficulty: 5,
             operations: [ 'addition', 'division', 'exponentiation', ],
+            hint: false,
         },
         statistics: {
             recentTotal: null,

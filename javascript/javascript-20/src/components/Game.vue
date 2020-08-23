@@ -18,7 +18,7 @@
         </v-col>
       </v-row>
       
-      <v-row no-gutters>
+      <v-row no-gutters v-bind:class="{ 'd-none': settings.hint === false, }">
         <v-col>
         {{ (currentTask === null ? '' : currentTask.question) }}
         </v-col>
