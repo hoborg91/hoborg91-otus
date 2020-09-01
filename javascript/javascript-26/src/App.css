@@ -1,0 +1,23 @@
+.App {
+  text-align: left;
+}
+
+.details-header {
+  margin-top: 0px;
+}
+
+.results {
+  position: absolute;
+  background-color: white;
+  border: 1px solid lightgrey;
+  border-radius: 3px;
+}
+
+.results-single-result:hover {
+  cursor: pointer;
+  background-color: lightskyblue;
+}
+
+.details-star {
+  cursor: pointer;
+}
