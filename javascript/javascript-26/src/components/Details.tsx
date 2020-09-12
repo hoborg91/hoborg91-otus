@@ -36,7 +36,7 @@ export default class Details extends Component<IDetailsProps> {
             <thead>
                 <tr>
                     <th>Time</th>
-                    <th>Temperature, Celcius</th>
+                    <th>Temperature, &deg;C</th>
                     <th>Atmospheric pressure, mm Hg</th>
                     <th>Humidity, %</th>
                     <th>Wind velocity, m/s</th>

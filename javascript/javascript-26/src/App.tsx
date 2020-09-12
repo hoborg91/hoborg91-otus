@@ -4,6 +4,7 @@ import Search from './components/Search';
 import Results from './components/Results';
 import Details from './components/Details';
 import * as Weather from './contracts/IWeatherRecord';
+import { compareLocations } from './infrastructure/utilities';
 
 export default class App extends Component<{ weatherData: Weather.IWeatherRecord[], }, IAppState> {
     constructor(props: { weatherData: Weather.IWeatherRecord[], }) {
@@ -21,15 +22,7 @@ export default class App extends Component<{ weatherData: Weather.IWeatherRecord
         if (searchedText !== null && searchedText.length > 0) {
             results = this.props.weatherData
                 .filter(wd => wd.location.toLowerCase().indexOf(searchedText.toLowerCase()) >= 0);
-            results.sort((a, b) => {
-                const af = this.state.favouriteLocations.indexOf(a.location) >= 0;
-                const bf = this.state.favouriteLocations.indexOf(b.location) >= 0;
-                if (af && !bf)
-                    return -1;
-                if (bf && !af)
-                    return 1;
-                return a.location <= b.location ? -1 : 1;
-            });
+            results.sort((a, b) => compareLocations(a, b, this.state.favouriteLocations));
             results = results.slice(0, 5);
         }
         this.setState({
