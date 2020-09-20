@@ -3,12 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { InventWeather, } from './data/weather';
+import { Provider } from 'react-redux';
+import { store } from './stateManagement/redux';
+import { Route, BrowserRouter as Router } from 'react-router-dom';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App weatherData={InventWeather(24 * 10)} />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <Router>
+      <Route path="/:locationId?" component={App}></Route>
+    </Router>
+  </Provider>,
   document.getElementById('root')
 );
 
