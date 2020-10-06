@@ -1,0 +1,14 @@
+<h1>{{title}}</h1>
+
+<mat-tab-group>
+    <mat-tab label="Recently Added">
+        <app-recently-added [words]="[ 'pain', 'despair', 'humiliation' ]"></app-recently-added>
+    </mat-tab>
+    <mat-tab label="Go">
+        <app-go></app-go>
+    </mat-tab>
+    <mat-tab label="Settings">
+        <app-settings [languages]="[ { value: 'en-GB', viewValue: 'English (UK)' }, { value: 'ru-RU', viewValue: 'Russian' } ]"></app-settings>
+    </mat-tab>
+</mat-tab-group>
+  
