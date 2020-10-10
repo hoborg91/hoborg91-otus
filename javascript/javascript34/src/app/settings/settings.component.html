@@ -1,0 +1,32 @@
+<ol>
+    <li *ngFor="let language of languages">{{language.value}}</li>
+</ol>
+
+<form class="example-form">
+    <mat-form-field appearance="fill">
+        <mat-label>Translate from</mat-label>
+        <mat-select>
+            <mat-option *ngFor="let language of languages" [value]="language.value">
+                {{language.viewValue}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Translate to</mat-label>
+        <mat-select>
+            <mat-option *ngFor="let language of languages" [value]="language.value">
+                {{language.viewValue}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <br />
+    <mat-form-field appearance="fill">
+        <mat-label>Number of words</mat-label>
+        <input matInput placeholder="Number of words" value="10" />
+    </mat-form-field>
+    <br />
+    <mat-form-field appearance="fill">
+        <mat-label>Exercise time, minutes</mat-label>
+        <input matInput placeholder="Exercise time, minutes" value="2" />
+    </mat-form-field>
+</form>
