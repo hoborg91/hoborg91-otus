@@ -1,5 +1,8 @@
 <h1>{{title}}</h1>
 
+<button (click)="testServices()">Test services</button>
+<button (click)="showStorage()">Show local storage</button>
+
 <mat-tab-group>
     <mat-tab label="Recently Added">
         <app-recently-added [words]="[ 'pain', 'despair', 'humiliation' ]"></app-recently-added>
