@@ -30,11 +30,6 @@ export class VocabularyService {
       langFrom,
       langTo,
     }));
-    // const translated = words.map(w => ({ 
-    //   src: w, 
-    //   dst: this._translation.translate(w, langFrom, langTo) 
-    // }));
-    // this._dictStorage.saveOrUpdate(translated);
   }
 
   private _splitIntoWords = (text: string) => {
