@@ -1,17 +1,62 @@
 <h3>Recently added words</h3>
 
 <ol>
-    <li *ngFor="let word of words">{{word}}</li>
+    <li *ngFor="let word of words">
+        <span matBadge="{{word.langFrom}}" matBadgeSize="small">{{word.src}}</span> &rarr; 
+        <span matBadge="{{word.langTo}}" matBadgeSize="small">{{word.dst}}</span>
+        <button mat-icon-button color="warn" aria-label="Remove word pair" (click)="removeWord(word)">
+            <mat-icon>clear</mat-icon>
+        </button>
+    </li>
 </ol>
 
-<form class="example-form">
-    <mat-form-field class="example-full-width">
-        <input matInput placeholder="add new word" value="" />
+<h3>Add new translation (one word pair)</h3>
+
+<form 
+    class="example-form" 
+    [formGroup]="addWordForm" 
+    (ngSubmit)="addWord()"
+>
+    <mat-form-field appearance="fill">
+        <mat-label>Translate from</mat-label>
+        <mat-select formControlName="langFrom">
+            <mat-option *ngFor="let language of languages" [value]="language.value">
+                {{language.viewValue}}
+            </mat-option>
+        </mat-select>
     </mat-form-field>
-    <mat-form-field class="example-full-width">
-        <input matInput placeholder="translation" value="" />
+    <mat-form-field appearance="fill" class="example-full-width">
+        <input matInput placeholder="add new word" formControlName="src" />
     </mat-form-field>
-    <button mat-mini-fab color="accent" aria-label="Add word">
-        +
-    </button>
+    <br />
+    <mat-form-field appearance="fill">
+        <mat-label>Translate to</mat-label>
+        <mat-select formControlName="langTo">
+            <mat-option *ngFor="let language of languages" [value]="language.value">
+                {{language.viewValue}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="example-full-width">
+        <input matInput placeholder="translation" formControlName="dst" />
+    </mat-form-field>
+    <br />
+    <button mat-stroked-button color="primary" aria-label="Add word" type="submit">Add word</button>
+</form>
+
+<h3>Add new translations (bulk)</h3>
+
+<form
+    class="example-form" 
+    (ngSubmit)="analyzeText()"
+>
+    Enter short text{{langFromText}}. 
+    All words from this text will be translated{{langToText}} and added to the dictionary.
+    <br />
+    <mat-form-field appearance="fill">
+        <mat-label>Text to be analyzed</mat-label>
+        <textarea matInput [formControl]="textToBeAnalyzed"></textarea>
+    </mat-form-field>
+    <br />
+    <button mat-stroked-button color="primary" aria-label="Analyze text" type="submit">Analyze text</button>
 </form>

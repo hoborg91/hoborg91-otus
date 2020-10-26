@@ -1,10 +1,19 @@
-<form class="example-form">
-    Enter the translation of the following word:
-    <h3>rainbow</h3>
+<div 
+    style='color:#ff7355' 
+    *ngIf="src === null || expectedDst === null"
+>
+    Try another languages or add some words to the dictionary.
+</div>
+<form 
+    class="example-form"
+    *ngIf="src !== null && expectedDst !== null"
+>    
+    Translate the following word{{langFromText}}{{langToText}}:
+    <h3 style='border: 1px solid lightgrey; border-radius: 3px; margin: 3px; padding: 3px;'>{{src}}</h3>
     <mat-form-field class="example-full-width">
-        <input matInput placeholder="answer" value="" />
+        <input matInput placeholder="answer" value="" [formControl]="answer" />
     </mat-form-field>
-    <button mat-mini-fab color="accent" aria-label="Add word">
+    <button mat-mini-fab color="accent" aria-label="Answer" (click)="giveAnswer()">
         >
     </button>
 </form>
