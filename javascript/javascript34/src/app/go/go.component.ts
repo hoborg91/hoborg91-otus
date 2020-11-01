@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ILanguage, en, ru } from '../contracts/languages';
+import { ILanguage, en, ru, defaultLanguages } from '../contracts/languages';
 import { IWordPair } from '../contracts/word';
 import { DictionaryStorageService } from '../dictionary-storage.service';
 import { getRandomInt } from '../infrastructure/utilities';
@@ -12,10 +12,14 @@ import { StateService } from '../state.service';
   styleUrls: ['./go.component.css']
 })
 export class GoComponent implements OnInit {
-  @Input() languages: ILanguage[];
+  languages: ILanguage[] = defaultLanguages;
   
-  langFrom = en.value;
-  langTo = ru.value;
+  get langFrom() {
+    return this._state.langFrom;
+  }
+  get langTo() {
+    return this._state.langTo;
+  }
 
   src: string = null;
   expectedDst: string = null;
@@ -43,8 +47,8 @@ export class GoComponent implements OnInit {
     private readonly _dict: DictionaryStorageService
   ) {
     this._state.subscribeToSettings(settings => {
-      this.langFrom = settings.langFrom;
-      this.langTo = settings.langTo;
+      // this.langFrom = settings.langFrom;
+      // this.langTo = settings.langTo;
       this._reloadBank();
     });
     this._dict.subscribeToChanges(() => {

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { getLocalStorage } from '../app.module';
 
 import { GoComponent } from './go.component';
 
@@ -8,7 +9,11 @@ describe('GoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GoComponent ]
+      declarations: [ GoComponent ],
+      providers: [
+        GoComponent,
+        { provide: 'LOCALSTORAGE', useFactory: getLocalStorage }
+      ]
     })
     .compileComponents();
   });

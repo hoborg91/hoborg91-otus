@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { IWordPair } from './contracts/word';
 import { distinct } from './infrastructure/utilities';
@@ -10,7 +10,7 @@ export class DictionaryStorageService {
   private static Key = 'https://github.com/hoborg91/hoborg91-otus/angular/dictionary';
 
   private get _recrods(): IWordPair[] {
-    let arrStr = localStorage.getItem(DictionaryStorageService.Key);
+    let arrStr = this._localStorage.getItem(DictionaryStorageService.Key);
     let arr = arrStr === null
       ? []
       : JSON.parse(arrStr);
@@ -19,13 +19,13 @@ export class DictionaryStorageService {
 
   private _changed = new Subject<void>();
   
-  constructor() { }
+  constructor(@Inject('LOCALSTORAGE') private _localStorage: Storage) { }
 
   saveOrUpdate = (record: IWordPair) => {
     this._check(record);
     let arr = this._recrods;
     arr.push(record);
-    localStorage.setItem(DictionaryStorageService.Key, JSON.stringify(distinct(arr)));
+    this._localStorage.setItem(DictionaryStorageService.Key, JSON.stringify(distinct(arr)));
     this._changed.next();
   }
 
@@ -36,7 +36,7 @@ export class DictionaryStorageService {
       && r.src === record.src
       && r.dst === record.dst
     ));
-    localStorage.setItem(DictionaryStorageService.Key, JSON.stringify(arr));
+    this._localStorage.setItem(DictionaryStorageService.Key, JSON.stringify(arr));
     this._changed.next();
   }
 
