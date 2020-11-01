@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { DictionaryStorageService } from './dictionary-storage.service';
-import { VocabularyService } from './vocabulary.service';
+import { ILanguage, en, ru } from './contracts/languages';
 
 @Component({
   selector: 'app-root',
@@ -10,23 +9,7 @@ import { VocabularyService } from './vocabulary.service';
 export class AppComponent {
   title = 'Vocabulary training';
 
-  constructor(
-    private readonly _vocab: VocabularyService,
-    private readonly _storage: DictionaryStorageService
-  ) {
+  languages: ILanguage[] = [ en, ru ];
 
-  }
-
-  public testServices = () => {
-    const text = prompt('Enter short text in english');
-    if (text.length > 100) {
-      alert('The given text is too long.');
-      return;
-    }
-    this._vocab.analyze(text, 'en', 'ru');
-  }
-
-  public showStorage = () => {
-    alert(this._storage.showAsString());
-  }
+  constructor() { }
 }

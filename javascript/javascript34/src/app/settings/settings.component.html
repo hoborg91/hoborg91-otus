@@ -1,11 +1,7 @@
-<ol>
-    <li *ngFor="let language of languages">{{language.value}}</li>
-</ol>
-
-<form class="example-form">
+<form class="example-form" [formGroup]="settingsForm" (ngSubmit)="saveSettings()">
     <mat-form-field appearance="fill">
         <mat-label>Translate from</mat-label>
-        <mat-select>
+        <mat-select formControlName="langFrom">
             <mat-option *ngFor="let language of languages" [value]="language.value">
                 {{language.viewValue}}
             </mat-option>
@@ -13,20 +9,18 @@
     </mat-form-field>
     <mat-form-field appearance="fill">
         <mat-label>Translate to</mat-label>
-        <mat-select>
+        <mat-select formControlName="langTo">
             <mat-option *ngFor="let language of languages" [value]="language.value">
                 {{language.viewValue}}
             </mat-option>
         </mat-select>
     </mat-form-field>
+    <div 
+        style='color:#ff7355' 
+        *ngIf="settingsForm.get(['langFrom']).value === settingsForm.get(['langTo']).value"
+    >
+        Languages must be different
+    </div>
     <br />
-    <mat-form-field appearance="fill">
-        <mat-label>Number of words</mat-label>
-        <input matInput placeholder="Number of words" value="10" />
-    </mat-form-field>
-    <br />
-    <mat-form-field appearance="fill">
-        <mat-label>Exercise time, minutes</mat-label>
-        <input matInput placeholder="Exercise time, minutes" value="2" />
-    </mat-form-field>
+    <button mat-stroked-button color="primary" aria-label="Save settings" type="submit">Save settings</button>
 </form>

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { DictionaryStorageService } from './dictionary-storage.service';
 import { TranslationService } from './translation.service';
 import { Subject } from 'rxjs';
+import { distinct } from './infrastructure/utilities';
 
 @Injectable({
   providedIn: 'root'
@@ -33,8 +34,9 @@ export class VocabularyService {
   }
 
   private _splitIntoWords = (text: string) => {
-    return text.split(' ')
+    const allWords = text.split(' ')
       .map(w => w.trim().toLowerCase())
       .filter(w => w.length > 0);
+    return distinct(allWords);
   }
 }
