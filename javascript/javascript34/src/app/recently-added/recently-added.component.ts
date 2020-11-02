@@ -52,10 +52,6 @@ export class RecentlyAddedComponent implements OnInit {
     private readonly _vocab: VocabularyService,
     private readonly _dict: DictionaryStorageService
   ) {
-    // this._state.subscribeToSettings(settings => {
-    //   this.langFrom = settings.langFrom;
-    //   this.langTo = settings.langTo;
-    // });
     this._dict.subscribeToChanges(() => {
       this.words = _dict.getAllWords();
     })

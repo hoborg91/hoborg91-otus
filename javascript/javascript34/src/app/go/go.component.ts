@@ -47,8 +47,6 @@ export class GoComponent implements OnInit {
     private readonly _dict: DictionaryStorageService
   ) {
     this._state.subscribeToSettings(settings => {
-      // this.langFrom = settings.langFrom;
-      // this.langTo = settings.langTo;
       this._reloadBank();
     });
     this._dict.subscribeToChanges(() => {
