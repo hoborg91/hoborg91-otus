@@ -1,14 +1,11 @@
 <h1>{{title}}</h1>
 
-<mat-tab-group>
-    <mat-tab label="Recently Added">
-        <app-recently-added [languages]="languages"></app-recently-added>
-    </mat-tab>
-    <mat-tab label="Go">
-        <app-go [languages]="languages"></app-go>
-    </mat-tab>
-    <mat-tab label="Settings">
-        <app-settings [languages]="languages"></app-settings>
-    </mat-tab>
-</mat-tab-group>
-  
+<nav>
+    <ul>
+        <li><a routerLink="/recently-added" routerLinkActive="active">Recently Added</a></li>
+        <li><a routerLink="/go" routerLinkActive="active">Go</a></li>
+        <li><a routerLink="/settings" routerLinkActive="active">Settings</a></li>
+    </ul>
+</nav>
+<!-- The routed views render in the <router-outlet>-->
+<router-outlet></router-outlet>

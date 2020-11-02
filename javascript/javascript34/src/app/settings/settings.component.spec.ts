@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder } from '@angular/forms';
 
 import { SettingsComponent } from './settings.component';
 
@@ -8,7 +9,11 @@ describe('SettingsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SettingsComponent ]
+      declarations: [ SettingsComponent ],
+      providers: [
+        SettingsComponent,
+        { provide: FormBuilder, useClass: FormBuilder }
+      ]
     })
     .compileComponents();
   });

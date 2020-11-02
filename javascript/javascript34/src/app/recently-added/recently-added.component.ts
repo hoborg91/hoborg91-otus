@@ -3,7 +3,7 @@ import { IWordPair } from '../contracts/word';
 import { DictionaryStorageService } from '../dictionary-storage.service';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { StateService } from '../state.service';
-import { ILanguage, en, ru } from '../contracts/languages';
+import { ILanguage, en, ru, defaultLanguages } from '../contracts/languages';
 import { VocabularyService } from '../vocabulary.service';
 
 @Component({
@@ -14,7 +14,7 @@ import { VocabularyService } from '../vocabulary.service';
 export class RecentlyAddedComponent implements OnInit {
   words: IWordPair[];
 
-  @Input() languages: ILanguage[];
+  languages: ILanguage[] = defaultLanguages;
 
   addWordForm = this._fb.group({
     langFrom: ['', Validators.required],
@@ -23,8 +23,12 @@ export class RecentlyAddedComponent implements OnInit {
     dst: ['', Validators.required],
   });
 
-  langFrom: string = en.value;
-  langTo: string = ru.value;
+  get langFrom() {
+    return this._state.langFrom;
+  }
+  get langTo() {
+    return this._state.langTo;
+  }
 
   textToBeAnalyzed = new FormControl('');
 
@@ -48,10 +52,6 @@ export class RecentlyAddedComponent implements OnInit {
     private readonly _vocab: VocabularyService,
     private readonly _dict: DictionaryStorageService
   ) {
-    this._state.subscribeToSettings(settings => {
-      this.langFrom = settings.langFrom;
-      this.langTo = settings.langTo;
-    });
     this._dict.subscribeToChanges(() => {
       this.words = _dict.getAllWords();
     })

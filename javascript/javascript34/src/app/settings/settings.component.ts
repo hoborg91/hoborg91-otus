@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
-import { ILanguage, en, ru } from '../contracts/languages';
+import { ILanguage, en, ru, defaultLanguages } from '../contracts/languages';
 import { StateService } from '../state.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { StateService } from '../state.service';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
-  @Input() languages: ILanguage[];
+  languages: ILanguage[] = defaultLanguages;
 
   constructor(
     private readonly _fb: FormBuilder,
@@ -22,7 +22,6 @@ export class SettingsComponent implements OnInit {
   saveSettings = () => {
     if (!this.settingsForm.valid)
       return;
-    console.log(this.settingsForm.value);
     this._state.changeSettings(this.settingsForm.value);
   }
 
@@ -33,7 +32,7 @@ export class SettingsComponent implements OnInit {
   }
 
   settingsForm = this._fb.group({
-    langFrom: [en.value, Validators.required],
-    langTo: [ru.value, Validators.required],
+    langFrom: [this._state.langFrom, Validators.required],
+    langTo: [this._state.langTo, Validators.required],
   }, {validator: this.languagesMustBeDifferent});
 }

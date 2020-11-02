@@ -12,3 +12,5 @@ export const ru: ILanguage = {
     value: 'ru',
     viewValue: 'Russian',
 };
+
+export const defaultLanguages = [ en, ru ];
